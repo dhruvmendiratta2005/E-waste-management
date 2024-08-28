@@ -1,15 +1,13 @@
-// Request.java
 public class Request {
     private int id;
-    private User user;
-    private EWasteItem item;
+    private int userId;
+    private int itemId;
     private String status;
 
-    // Constructors, Getters, and Setters
-    public Request(int id, User user, EWasteItem item, String status) {
+    public Request(int id, int userId, int itemId, String status) {
         this.id = id;
-        this.user = user;
-        this.item = item;
+        this.userId = userId;
+        this.itemId = itemId;
         this.status = status;
     }
 
@@ -17,28 +15,28 @@ public class Request {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getUserId() {
+        return userId;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public EWasteItem getItem() {
-        return item;
-    }
-
-    public void setItem(EWasteItem item) {
-        this.item = item;
+    public int getItemId() {
+        return itemId;
     }
 
     public String getStatus() {
         return status;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
     public void setStatus(String status) {
@@ -47,6 +45,11 @@ public class Request {
 
     @Override
     public String toString() {
-        return "Request [id=" + id + ", user=" + user + ", item=" + item + ", status=" + status + "]";
+        return "Request{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", itemId=" + itemId +
+                ", status='" + status + '\'' +
+                '}';
     }
 }
