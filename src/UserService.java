@@ -1,3 +1,11 @@
+//This file manages the connection with mySQL database and deals with crud operations.
+
+
+
+
+
+
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

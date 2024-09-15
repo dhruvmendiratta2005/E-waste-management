@@ -2,10 +2,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class EWMSystem {
-    private static UserService userService = new UserService();
-    private static EWasteItemService eWasteItemService = new EWasteItemService();
-    private static RequestService requestService = new RequestService();
-    private static Scanner scanner = new Scanner(System.in);
+    private static final UserService userService = new UserService();
+    private static final EWasteItemService eWasteItemService = new EWasteItemService();
+    private static final RequestService requestService = new RequestService();
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         while (true) {
