@@ -1,3 +1,5 @@
+package model;
+
 public class Request {
     private int id;
     private int userId;
@@ -45,7 +47,7 @@ public class Request {
 
     @Override
     public String toString() {
-        return "Request{" +
+        return "model.Request{" +
                 "id=" + id +
                 ", userId=" + userId +
                 ", itemId=" + itemId +

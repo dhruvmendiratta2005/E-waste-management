@@ -1,3 +1,13 @@
+package service;//This file manages the connection with mySQL database and deals with crud operations.
+
+
+
+
+
+
+
+import model.User;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -6,8 +16,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EWasteItemService {
+public class UserService {
     private Connection connect() {
+        // MySQL connection URL, username, and password
         String url = "jdbc:mysql://localhost:3306/e_waste_management";
         String user = "root"; // replace with your MySQL username
         String password = "dhruvdiya1"; // replace with your MySQL password
@@ -21,75 +32,75 @@ public class EWasteItemService {
         return conn;
     }
 
-    public void addEWasteItem(EWasteItem item) {
-        String sql = "INSERT INTO ewaste_items(name, type, item_condition) VALUES(?,?,?)";
+    public void addUser(User user) {
+        String sql = "INSERT INTO users(name, email, address) VALUES(?,?,?)";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, item.getName());
-            pstmt.setString(2, item.getType());
-            pstmt.setString(3, item.getItemCondition());
+            pstmt.setString(1, user.getName());
+            pstmt.setString(2, user.getEmail());
+            pstmt.setString(3, user.getAddress());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public List<EWasteItem> getAllEWasteItems() {
-        String sql = "SELECT * FROM ewaste_items";
-        List<EWasteItem> items = new ArrayList<>();
+    public List<User> getAllUsers() {
+        String sql = "SELECT * FROM users";
+        List<User> users = new ArrayList<>();
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                EWasteItem item = new EWasteItem(rs.getInt("id"), rs.getString("name"),
-                        rs.getString("type"), rs.getString("item_condition"));
-                items.add(item);
+                User user = new User(rs.getInt("id"), rs.getString("name"),
+                        rs.getString("email"), rs.getString("address"));
+                users.add(user);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return items;
+        return users;
     }
 
-    public EWasteItem getEWasteItemById(int id) {
-        String sql = "SELECT * FROM ewaste_items WHERE id = ?";
-        EWasteItem item = null;
+    public User getUserById(int id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+        User user = null;
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    item = new EWasteItem(rs.getInt("id"), rs.getString("name"),
-                            rs.getString("type"), rs.getString("item_condition"));
+                    user = new User(rs.getInt("id"), rs.getString("name"),
+                            rs.getString("email"), rs.getString("address"));
                 }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return item;
+        return user;
     }
 
-    public void updateEWasteItem(EWasteItem item) {
-        String sql = "UPDATE ewaste_items SET name = ?, type = ?, item_condition = ? WHERE id = ?";
+    public void updateUser(User user) {
+        String sql = "UPDATE users SET name = ?, email = ?, address = ? WHERE id = ?";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, item.getName());
-            pstmt.setString(2, item.getType());
-            pstmt.setString(3, item.getItemCondition());
-            pstmt.setInt(4, item.getId());
+            pstmt.setString(1, user.getName());
+            pstmt.setString(2, user.getEmail());
+            pstmt.setString(3, user.getAddress());
+            pstmt.setInt(4, user.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void deleteEWasteItem(int id) {
-        String sql = "DELETE FROM ewaste_items WHERE id = ?";
+    public void deleteUser(int id) {
+        String sql = "DELETE FROM users WHERE id = ?";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

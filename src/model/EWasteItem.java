@@ -1,3 +1,5 @@
+package model;
+
 public class EWasteItem {
     private int id;
     private String name;
@@ -45,7 +47,7 @@ public class EWasteItem {
 
     @Override
     public String toString() {
-        return "EWasteItem{" +
+        return "model.EWasteItem{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +

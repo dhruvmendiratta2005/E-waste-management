@@ -1,4 +1,6 @@
-// User.java
+package model;
+
+// model.User.java
 public class User {
     private int id;
     private String name;
@@ -47,6 +49,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address + "]";
+        return "model.User [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address + "]";
     }
 }

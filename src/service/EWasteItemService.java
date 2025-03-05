@@ -1,3 +1,7 @@
+package service;
+
+import model.EWasteItem;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -6,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RequestService {
+public class EWasteItemService {
     private Connection connect() {
         String url = "jdbc:mysql://localhost:3306/e_waste_management";
         String user = "root"; // replace with your MySQL username
@@ -21,75 +25,75 @@ public class RequestService {
         return conn;
     }
 
-    public void addRequest(Request request) {
-        String sql = "INSERT INTO requests(user_id, item_id, status) VALUES(?,?,?)";
+    public void addEWasteItem(EWasteItem item) {
+        String sql = "INSERT INTO ewaste_items(name, type, item_condition) VALUES(?,?,?)";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, request.getUserId());
-            pstmt.setInt(2, request.getItemId());
-            pstmt.setString(3, request.getStatus());
+            pstmt.setString(1, item.getName());
+            pstmt.setString(2, item.getType());
+            pstmt.setString(3, item.getItemCondition());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public List<Request> getAllRequests() {
-        String sql = "SELECT * FROM requests";
-        List<Request> requests = new ArrayList<>();
+    public List<EWasteItem> getAllEWasteItems() {
+        String sql = "SELECT * FROM ewaste_items";
+        List<EWasteItem> items = new ArrayList<>();
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                Request request = new Request(rs.getInt("id"), rs.getInt("user_id"),
-                        rs.getInt("item_id"), rs.getString("status"));
-                requests.add(request);
+                EWasteItem item = new EWasteItem(rs.getInt("id"), rs.getString("name"),
+                        rs.getString("type"), rs.getString("item_condition"));
+                items.add(item);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return requests;
+        return items;
     }
 
-    public Request getRequestById(int id) {
-        String sql = "SELECT * FROM requests WHERE id = ?";
-        Request request = null;
+    public EWasteItem getEWasteItemById(int id) {
+        String sql = "SELECT * FROM ewaste_items WHERE id = ?";
+        EWasteItem item = null;
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    request = new Request(rs.getInt("id"), rs.getInt("user_id"),
-                            rs.getInt("item_id"), rs.getString("status"));
+                    item = new EWasteItem(rs.getInt("id"), rs.getString("name"),
+                            rs.getString("type"), rs.getString("item_condition"));
                 }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return request;
+        return item;
     }
 
-    public void updateRequest(Request request) {
-        String sql = "UPDATE requests SET user_id = ?, item_id = ?, status = ? WHERE id = ?";
+    public void updateEWasteItem(EWasteItem item) {
+        String sql = "UPDATE ewaste_items SET name = ?, type = ?, item_condition = ? WHERE id = ?";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, request.getUserId());
-            pstmt.setInt(2, request.getItemId());
-            pstmt.setString(3, request.getStatus());
-            pstmt.setInt(4, request.getId());
+            pstmt.setString(1, item.getName());
+            pstmt.setString(2, item.getType());
+            pstmt.setString(3, item.getItemCondition());
+            pstmt.setInt(4, item.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void deleteRequest(int id) {
-        String sql = "DELETE FROM requests WHERE id = ?";
+    public void deleteEWasteItem(int id) {
+        String sql = "DELETE FROM ewaste_items WHERE id = ?";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

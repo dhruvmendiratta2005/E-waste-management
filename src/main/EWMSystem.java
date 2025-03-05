@@ -1,3 +1,16 @@
+package main;
+
+import model.EWasteItem;
+import model.Request;
+import model.User;
+import model.Donation;
+import model.CollectionCenter;
+import service.EWasteItemService;
+import service.RequestService;
+import service.UserService;
+import service.DonationService;
+import service.CollectionCenterService;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -5,6 +18,8 @@ public class EWMSystem {
     private static final UserService userService = new UserService();
     private static final EWasteItemService eWasteItemService = new EWasteItemService();
     private static final RequestService requestService = new RequestService();
+    private static final DonationService donationCenterService = new DonationService();
+    private static final CollectionCenterService collectionCenterService = new CollectionCenterService();
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -13,35 +28,32 @@ public class EWMSystem {
             System.out.println("1. Manage Users");
             System.out.println("2. Manage E-Waste Items");
             System.out.println("3. Manage Requests");
-            System.out.println("4. Exit");
+            System.out.println("4. Manage Donation Centers");
+            System.out.println("5. Manage Collection Centers");
+            System.out.println("6. Exit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
 
-            switch (choice) {
-                case 1:
-                    manageUsers();
-                    break;
-                case 2:
-                    manageEWasteItems();
-                    break;
-                case 3:
-                    manageRequests();
-                    break;
-                case 4:
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Invalid option. Please try again.");
+            switch(choice) {
+                case 1: manageUsers(); break;
+                case 2: manageEWasteItems(); break;
+                case 3: manageRequests(); break;
+                case 4: manageDonationCenters(); break;
+                case 5: manageCollectionCenters(); break;
+                case 6: System.exit(0); break;
+                default: System.out.println("Invalid option. Please try again.");
             }
         }
     }
 
+
+    // Existing methods: manageUsers(), manageEWasteItems(), manageRequests() remain unchanged
     private static void manageUsers() {
-        System.out.println("\n1. Add User");
+        System.out.println("\n1. Add model.User");
         System.out.println("2. View Users");
-        System.out.println("3. Search User");
-        System.out.println("4. Update User");
-        System.out.println("5. Delete User");
+        System.out.println("3. Search model.User");
+        System.out.println("4. Update model.User");
+        System.out.println("5. Delete model.User");
         System.out.print("Choose an option: ");
         int choice = scanner.nextInt();
         scanner.nextLine();  // consume newline
@@ -68,7 +80,7 @@ public class EWMSystem {
                 System.out.print("Enter user ID: ");
                 int userId = scanner.nextInt();
                 User foundUser = userService.getUserById(userId);
-                System.out.println(foundUser != null ? foundUser : "User not found.");
+                System.out.println(foundUser != null ? foundUser : "model.User not found.");
                 break;
             case 4:
                 System.out.print("Enter user ID: ");
@@ -153,11 +165,11 @@ public class EWMSystem {
     }
 
     private static void manageRequests() {
-        System.out.println("\n1. Add Request");
+        System.out.println("\n1. Add model.Request");
         System.out.println("2. View Requests");
-        System.out.println("3. Search Request");
-        System.out.println("4. Update Request");
-        System.out.println("5. Delete Request");
+        System.out.println("3. Search model.Request");
+        System.out.println("4. Update model.Request");
+        System.out.println("5. Delete model.Request");
         System.out.print("Choose an option: ");
         int choice = scanner.nextInt();
         scanner.nextLine();  // consume newline
@@ -185,7 +197,7 @@ public class EWMSystem {
                 System.out.print("Enter request ID: ");
                 int requestId = scanner.nextInt();
                 Request foundRequest = requestService.getRequestById(requestId);
-                System.out.println(foundRequest != null ? foundRequest : "Request not found.");
+                System.out.println(foundRequest != null ? foundRequest : "model.Request not found.");
                 break;
             case 4:
                 System.out.print("Enter request ID: ");
@@ -211,4 +223,75 @@ public class EWMSystem {
                 System.out.println("Invalid option.");
         }
     }
+
+    private static void manageDonationCenters() {
+        System.out.println("\n1. Add Donation Center");
+        System.out.println("2. View Donation Centers");
+        System.out.println("3. Update Donation Center");
+        System.out.println("4. Delete Donation Center");
+        System.out.print("Choose an option: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1:
+                System.out.print("Enter center name: ");
+                String name = scanner.nextLine();
+                System.out.print("Enter location: ");
+                String location = scanner.nextLine();
+                donationCenterService.addDonation(new Donation(0, name, location));
+                break;
+            case 2:
+                List<Donation> centers = donationCenterService.getAllDonations();
+                for (Donation dc : centers) {
+                    System.out.println(dc);
+                }
+                break;
+            case 3:
+                System.out.print("Enter center ID to update: ");
+                int id = scanner.nextInt();
+                scanner.nextLine();
+                System.out.print("Enter new name: ");
+                String newName = scanner.nextLine();
+                System.out.print("Enter new location: ");
+                String newLocation = scanner.nextLine();
+                donationCenterService.updateDonation(new Donation(id, newName, newLocation));
+                break;
+            case 4:
+                System.out.print("Enter center ID to delete: ");
+                int deleteId = scanner.nextInt();
+                donationCenterService.deleteDonation(deleteId);
+                break;
+            default:
+                System.out.println("Invalid option.");
+        }
+    }
+
+    private static void manageCollectionCenters() {
+        System.out.println("\n1. Add Collection Center");
+        System.out.println("2. View Collection Centers");
+
+        System.out.print("Choose an option: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1:
+                System.out.print("Enter center name: ");
+                String name = scanner.nextLine();
+                System.out.print("Enter location: ");
+                String location = scanner.nextLine();
+                collectionCenterService.addCenter(new CollectionCenter(0, name, location));
+                break;
+            case 2:
+                List<CollectionCenter> centers = collectionCenterService.getAllCenters();
+                for (CollectionCenter cc : centers) {
+                    System.out.println(cc);
+                }
+                break;
+            default:
+                System.out.println("Invalid option.");
+        }
+    }
 }
+
